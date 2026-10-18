@@ -85,11 +85,10 @@
 
         <div class="w-full p-2 flex justify-between items-center bg-white">
             <div>
-                <h1 class="text-[9px] md:text-base">Mulai Dari</h1>
-                <p class="mt-1 text-[12px] md:text-sm text-[#ff5e21] font-semibold"> <?= format_rupiah($wisata->harga) ?> </p>
+                <p class="mt-1 text-[12px] md:text-sm text-[#ff5e21] font-semibold"> <?= format_rupiah($tarif_pesanan['harga']) ?> / <?= $tarif_pesanan['label'] ?> </p>
                 <p class="text-[7px] md:text-[11px] text-gray-500">Harga dapat berubah kapan saja.</p>
             </div>
-            <a href="https://wa.me/6287830270670?text=Halo%20saya%20ingin%20booking%20wisata%20di%20<?= $wisata->nama ?>" class="px-2 md:px-4 py-1.5 md:py-2.5 text-[9px] md:text-sm text-white bg-[#ff5e21] rounded-md">Pesan Kamar</a>
+            <a href="<?= html_escape($url_pemesanan) ?>" class="px-2 md:px-4 py-1.5 md:py-2.5 text-[9px] md:text-sm text-white bg-[#ff5e21] rounded-md">Pesan Tiket</a>
         </div>
 
     </div>

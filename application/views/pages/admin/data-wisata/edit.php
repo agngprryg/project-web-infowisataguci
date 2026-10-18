@@ -51,14 +51,14 @@
             </div>
 
             <!-- Harga -->
+            <?php foreach (tarif_labels() as $field => $label): ?>
             <div class="flex flex-col">
-                <label class="mb-1 font-medium">Harga</label>
-                <input
-                    type="text"
-                    name="harga"
-                    value="<?= $data_wisata->harga ?>"
-                    class="px-4 py-2 border rounded-md">
+                <label for="<?= $field ?>" class="mb-1 font-medium">Harga <?= $label ?></label>
+                <input id="<?= $field ?>" type="number" name="<?= $field ?>" min="0" max="2147483647" step="1" required
+                    value="<?= set_value($field, $data_wisata->$field) ?>" class="px-4 py-2.5 border rounded-md">
+                <span class="mt-1 text-xs text-red-600"><?= form_error($field) ?></span>
             </div>
+            <?php endforeach; ?>
 
             <!-- Status -->
             <div class="flex flex-col">

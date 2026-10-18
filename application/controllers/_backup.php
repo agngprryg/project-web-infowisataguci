@@ -48,10 +48,10 @@ class CDataWisata extends CI_Controller
             ['field' => 'id_kategori', 'label' => 'Kategori',  'rules' => 'required'],
             ['field' => 'nama',        'label' => 'Nama',      'rules' => 'required'],
             ['field' => 'deskripsi',   'label' => 'Deskripsi', 'rules' => 'required'],
-            ['field' => 'harga',       'label' => 'Harga',     'rules' => 'required|numeric'],
+            // Aturan tiga tarif ditambahkan di bawah.
             ['field' => 'status',      'label' => 'Status',    'rules' => 'required'],
         ];
-        $this->form_validation->set_rules($rules);
+        $this->form_validation->set_rules(array_merge($rules, tarif_validation_rules()));
 
         $data['data_kategori'] = $this->MAdmin->get_all('data_kategori');
 
@@ -100,7 +100,9 @@ class CDataWisata extends CI_Controller
             'nama'        => $this->security->xss_clean($this->input->post('nama')),
             'deskripsi'   => $this->security->xss_clean($this->input->post('deskripsi')),
             'thumbnail'   => $thumbnail,
-            'harga'       => $this->input->post('harga'),
+            'harga_weekday' => $this->input->post('harga_weekday'),
+            'harga_weekend' => $this->input->post('harga_weekend'),
+            'harga_high_season' => $this->input->post('harga_high_season'),
             'status'      => $this->input->post('status'),
         ];
 
@@ -153,6 +155,8 @@ class CDataWisata extends CI_Controller
 
     public function update($id)
     {
+        $this->form_validation->set_rules(tarif_validation_rules());
+        if (!$this->form_validation->run()) { $this->edit($id); return; }
 
         $data_wisata = $this->MAdmin->get_by_id('data_wisata', $id);
         $thumbnail_lama = $data_wisata->thumbnail;
@@ -190,7 +194,9 @@ class CDataWisata extends CI_Controller
             'nama'              => $this->input->post('nama'),
             'deskripsi'         => $this->input->post('deskripsi'),
             'thumbnail'         => $thumbnail_baru,
-            'harga'             => $this->input->post('harga'),
+            'harga_weekday' => $this->input->post('harga_weekday'),
+            'harga_weekend' => $this->input->post('harga_weekend'),
+            'harga_high_season' => $this->input->post('harga_high_season'),
             'status'            => $this->input->post('status'),
         ];
 
@@ -240,7 +246,7 @@ class CDataWisata extends CI_Controller
     //         ]
     //     ];
 
-    //     $this->form_validation->set_rules($rules);
+    //     $this->form_validation->set_rules(array_merge($rules, tarif_validation_rules()));
 
     //     if ($this->form_validation->run() == false) {
     //         return $this->_errorBack('ppp');
@@ -271,7 +277,9 @@ class CDataWisata extends CI_Controller
     //         'deskripsi'     => $this->input->post('deskripsi'),
     //         'thumbnail'     => $thumbName,
     //         'kapasitas'     => $this->input->post('kapasitas'),
-    //         'harga'         => $this->input->post('harga'),
+    //         'harga_weekday' => $this->input->post('harga_weekday'),
+    //         'harga_weekend' => $this->input->post('harga_weekend'),
+    //         'harga_high_season' => $this->input->post('harga_high_season'),
     //         'status'        => $this->input->post('status'),
     //     ];
     //     $id_penginapan = $this->MAdmin->store('data_penginapan', $data);

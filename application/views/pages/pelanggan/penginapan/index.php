@@ -14,7 +14,7 @@
                     </div>
                     <p class="md:mt-3 text-[10px] font-semibold "> <?= $item->nama_kategori ?> </p>
                     <p class="md:mt-3 text-[10px] text-gray-500">Mulai Dari</p>
-                    <p class="text-xs md:text-base text-[#ff5d00] font-semibold"><?= format_rupiah($item->harga) ?></p>
+                    <p class="text-xs md:text-base text-[#ff5d00] font-semibold"><?= tarif_display($item) ?></p>
                     <p class="text-[9px] text-gray-500">Harga Dapat Berubah Kapan Saja</p>
                 </div>
                 <div class="absolute top-[100px] md:top-[170px] lg:top-[200px] left-[5px] w-[90px] md:w-[130px] h-[20px] md:h-[30px] flex justify-between items-center gap-2 text-white bg-[#1856a4] rounded-sm">

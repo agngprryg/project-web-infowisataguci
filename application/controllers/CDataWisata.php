@@ -57,11 +57,7 @@ class CDataWisata extends CI_Controller
                 'label' => 'Deskripsi',
                 'rules' => 'required'
             ],
-            [
-                'field' => 'harga',
-                'label' => 'Harga',
-                'rules' => 'required|numeric'
-            ],
+
             [
                 'field' => 'status',
                 'label' => 'Status',
@@ -69,7 +65,8 @@ class CDataWisata extends CI_Controller
             ],
         ];
 
-        $this->form_validation->set_rules($rules);
+        $this->load->helper('tarif');
+        $this->form_validation->set_rules(array_merge($rules, tarif_validation_rules()));
         $data['data_kategori'] = $this->MAdmin->get_all('data_kategori');
 
         if ($this->form_validation->run() == FALSE) {
@@ -110,7 +107,9 @@ class CDataWisata extends CI_Controller
             'deskripsi'   => $this->input->post('deskripsi'),
             'thumbnail'   => $thumbnail_name,
             'urutan'      => $lastOrder + 1,
-            'harga'       => $this->input->post('harga'),
+            'harga_weekday' => $this->input->post('harga_weekday'),
+            'harga_weekend' => $this->input->post('harga_weekend'),
+            'harga_high_season' => $this->input->post('harga_high_season'),
             'status'      => $this->input->post('status'),
         ];
 
@@ -160,6 +159,12 @@ class CDataWisata extends CI_Controller
 
     public function update($id)
     {
+        $this->load->helper('tarif');
+        $this->form_validation->set_rules(tarif_validation_rules());
+        if (!$this->form_validation->run()) {
+            $this->edit($id);
+            return;
+        }
         $data_wisata = $this->MAdmin->get_by_id('data_wisata', $id);
         $thumbnail_lama = $data_wisata->thumbnail;
 
@@ -185,7 +190,9 @@ class CDataWisata extends CI_Controller
             'nama'              => $this->input->post('nama'),
             'deskripsi'         => $this->input->post('deskripsi'),
             'thumbnail'         => $thumbnail_name,
-            'harga'             => $this->input->post('harga'),
+            'harga_weekday' => $this->input->post('harga_weekday'),
+            'harga_weekend' => $this->input->post('harga_weekend'),
+            'harga_high_season' => $this->input->post('harga_high_season'),
             'status'            => $this->input->post('status'),
         ];
 
