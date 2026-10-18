@@ -25,6 +25,27 @@ function tarif_display($item)
     return implode('<br>', $html);
 }
 
+// Kalender lokal menghindari ketergantungan API ketika halaman dibuka.
+function tarif_kalender_indonesia()
+{
+    static $kalender = NULL;
+    if ($kalender === NULL) {
+        $config = array();
+        require dirname(__DIR__) . '/config/kalender_indonesia.php';
+        $kalender = $config['tarif_libur_indonesia'];
+    }
+    return $kalender;
+}
+
+function tarif_hari_ini_display($item)
+{
+    $CI =& get_instance();
+    $CI->config->load('tarif');
+    $tanggal = (new DateTime('now', new DateTimeZone('Asia/Jakarta')))->format('Y-m-d');
+    $tarif = tarif_for_date($item, $tanggal, $CI->config->item('tarif_high_season'));
+    return format_rupiah($tarif['harga']);
+}
+
 function tarif_parse_date($value)
 {
     if (!is_string($value)) {
@@ -50,6 +71,11 @@ function tarif_for_date($item, $tanggal, $periods = array())
         if ($date >= $start && $date <= $end) {
             $field = 'harga_high_season';
         }
+    }
+    $kalender = tarif_kalender_indonesia();
+    $tahun = (int) $date->format('Y');
+    if (isset($kalender[$tahun]) && in_array($tanggal, $kalender[$tahun], TRUE)) {
+        $field = 'harga_high_season';
     }
     $labels = tarif_labels();
     return array('kategori' => $field, 'label' => $labels[$field], 'harga' => $item->$field);
