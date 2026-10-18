@@ -32,6 +32,8 @@ class CPelanggan extends CI_Controller
     {
         $data['id_pelanggan'] = $this->session->userdata('id_pelanggan');
         $data['penginapan'] = $this->MPelanggan->get_penginapan_with_kategori_by_id($id);
+        if (!$data['penginapan']) { show_404(); return; }
+        $data = array_merge($data, $this->tarif_pemesanan($data['penginapan'], 'penginapan'));
         $data['fasilitas'] = $this->MPelanggan->get_fasilitas_by_penginapan($id);
         $data['penginapan_gambar'] = $this->MPelanggan->get_gambar_with_penginapan($id);
         $data['data_kategori'] = $this->MPelanggan->get_data_kategori_aktif();
@@ -64,6 +66,8 @@ class CPelanggan extends CI_Controller
     {
         $data['id_pelanggan'] = $this->session->userdata('id_pelanggan');
         $data['wisata'] = $this->MPelanggan->get_wisata_with_kategori_by_id($id);
+        if (!$data['wisata']) { show_404(); return; }
+        $data = array_merge($data, $this->tarif_pemesanan($data['wisata'], 'wisata'));
         $data['wisata_gambar'] = $this->MPelanggan->get_gambar_with_wisata($id);
         $data['data_kategori'] = $this->MPelanggan->get_data_kategori_aktif();
 
@@ -105,6 +109,26 @@ class CPelanggan extends CI_Controller
         $this->load->view('components/navbar.php', $data);
         $this->load->view('pages/pelanggan/transportasi/detail.php', $data);
         // $this->load->view('components/footer_pelanggan.php');
+    }
+
+    private function tarif_pemesanan($item, $jenis)
+    {
+        $this->config->load('tarif');
+        $tanggal = $this->input->get('tanggal');
+        if ($tanggal === NULL) {
+            $tanggal = (new DateTime('now', new DateTimeZone('Asia/Jakarta')))->format('Y-m-d');
+        }
+        try {
+            $tarif = tarif_for_date($item, $tanggal, $this->config->item('tarif_high_season'));
+        } catch (InvalidArgumentException $e) {
+            show_error('Tanggal tarif tidak valid. Gunakan format YYYY-MM-DD.', 400);
+            exit;
+        }
+        $pesan = 'Halo saya ingin booking ' . $jenis . ' di ' . $item->nama
+            . ', tanggal ' . $tanggal . ', tarif ' . $tarif['label'] . ': '
+            . format_rupiah($tarif['harga']) . ($jenis === 'penginapan' ? ' per malam' : ' per tiket');
+        return array('tanggal_tarif' => $tanggal, 'tarif_pesanan' => $tarif,
+            'url_pemesanan' => 'https://wa.me/6287830270670?text=' . rawurlencode($pesan));
     }
 
     public function maintenance_page()

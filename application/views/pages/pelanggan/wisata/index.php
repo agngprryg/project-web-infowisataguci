@@ -14,7 +14,7 @@
                     </div>
                     <p class="md:mt-3 text-[10px] font-semibold "> <?= $item->nama_kategori ?> </p>
                     <p class="md:mt-3 text-[10px] text-gray-500">Mulai Dari</p>
-                    <p class="text-xs md:text-base text-[#ff5d00] font-semibold"><?= format_rupiah($item->harga) ?></p>
+                    <p class="text-xs md:text-base text-[#ff5d00] font-semibold"><?= tarif_hari_ini_display($item) ?></p>
                     <p class="text-[9px] text-gray-500">Harga Dapat Berubah Kapan Saja</p>
                 </div>
             </a>

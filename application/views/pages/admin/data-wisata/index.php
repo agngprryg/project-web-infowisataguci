@@ -59,7 +59,7 @@
                                 <?= trim_words($item->deskripsi, 5) ?>
                             </td>
                             <td class="py-4 pr-6 align-top text-gray-900">
-                                <?= format_rupiah($item->harga) ?>
+                                <?= tarif_display($item) ?>
                             </td>
                             <td class="py-4 pr-6 align-top text-gray-900">
                                 <?= $item->status ?>
