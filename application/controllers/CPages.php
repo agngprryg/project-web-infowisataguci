@@ -34,18 +34,48 @@ class CPages extends CI_Controller
         $this->load->view('components/footer.php');
     }
 
+
     public function Pelanggan()
     {
-        $data['data_penginapan'] = $this->MPelanggan->get_penginapan_with_kategori_limit();
-        $data['data_wisata'] = $this->MPelanggan->get_wisata_with_kategori_limit();
-        $data['id_pelanggan'] = $this->session->userdata('id_pelanggan');
-        $data['data_kategori'] = $this->MPelanggan->get_data_kategori_aktif();
+
+        $input = $this->input->get('kapasitas', TRUE);
+        $kapasitas = NULL;
+
+        if (
+            $input !== NULL &&
+            $input !== '' &&
+            ctype_digit((string) $input) &&
+            (int) $input > 0
+        ) {
+            $kapasitas = (int) $input;
+        }
+
+        $data['kapasitas_terpilih'] = $kapasitas;
+
+        $data['data_penginapan'] =
+            $this->MPelanggan->get_penginapan_with_kategori_limit(
+                $kapasitas
+            );
+
+
+        $data['data_wisata'] =
+            $this->MPelanggan->get_wisata_with_kategori_limit();
+
+        $data['id_pelanggan'] =
+            $this->session->userdata('id_pelanggan');
+
+        $data['data_kategori'] =
+            $this->MPelanggan->get_data_kategori_aktif();
 
         $this->load->view('components/header.php');
         $this->load->view('components/navbar.php', $data);
-        $this->load->view('pages/pelanggan/beranda/index.php', $data);
+        $this->load->view(
+            'pages/pelanggan/beranda/index.php',
+            $data
+        );
         $this->load->view('components/footer_pelanggan.php');
     }
+
 
     public function Owner()
     {

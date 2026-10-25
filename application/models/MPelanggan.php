@@ -47,15 +47,34 @@ class MPelanggan extends CI_Model
         return $this->db->get('data_kategori')->result();
     }
 
-    public function get_penginapan_with_kategori()
+
+    public function get_penginapan_with_kategori($kapasitas = NULL)
     {
-        $this->db->select('data_penginapan.*, data_kategori.nama as nama_kategori');
+        $this->db->select(
+            'data_penginapan.*, data_kategori.nama AS nama_kategori'
+        );
+
         $this->db->from('data_penginapan');
-        $this->db->join('data_kategori', 'data_kategori.id = data_penginapan.id_kategori');
+
+        $this->db->join(
+            'data_kategori',
+            'data_kategori.id = data_penginapan.id_kategori'
+        );
+
         $this->db->where('data_penginapan.status', 'aktif');
+
+        if ($kapasitas !== NULL) {
+            $this->db->where(
+                'data_penginapan.kapasitas_max >=',
+                $kapasitas
+            );
+        }
+
         $this->db->order_by('data_penginapan.urutan', 'ASC');
+
         return $this->db->get()->result();
     }
+
 
     public function get_wisata_with_kategori()
     {

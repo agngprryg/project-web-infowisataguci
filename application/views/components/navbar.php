@@ -88,16 +88,49 @@
 
             <?php foreach ($data_kategori as $item): ?>
                 <a href="<?= base_url($item->slug) ?>" class="flex items-center gap-1 px-2 lg:px-4 py-1 bg-white text-black border border-white rounded-2xl hover:border-black transition-all duration-300 ease-in-out">
-                    <img src="<?= base_url('uploads/icon/') . $item->icon ?>" alt="<?= $item->nama ?>" class="w-[20px] md:size-[30px]" />
-                    <p class="text-[9px] md:text-sm "><?= $item->nama ?></p>
+                    <img src="<?= base_url('uploads/icon/') . $item->icon ?>" alt="<?= $item->nama ?>" class="w-[30px] md:size-[30px]" />
+                    <p class="text-[12px] md:text-sm font-semibold"><?= $item->nama ?></p>
                 </a>
             <?php endforeach; ?>
 
         </div>
 
+        <form method="get" action="<?= site_url('penginapan') ?>"
+            class="mt-5 px-1 md:px-10 py-5 flex flex-wrap items-center gap-3 rounded-lg">
+
+            <div class="flex flex-col gap-1">
+
+                <input
+                    type="number"
+                    name="kapasitas"
+                    id="kapasitas"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="Mau Cari Kamar Buat Berapa Orang?"
+                    value="<?= isset($kapasitas_terpilih) && $kapasitas_terpilih !== NULL
+                                ? html_escape($kapasitas_terpilih)
+                                : '' ?>"
+                    class="w-40 md:w-[370px] rounded-md border border-gray-300 px-3 py-2 md:py-[12px] text-[8px] md:text-sm text-black bg-[#f8f9fd]">
+            </div>
+
+            <button
+                type="submit"
+                class="rounded-md bg-[#ff5d00] px-4 py-2 md:py-[12px] text-sm font-semibold text-white">
+                Cari
+            </button>
+
+            <a href="<?= site_url('penginapan') ?>"
+                class="rounded-md border border-gray-300 px-4 py-2 md:py-[12px] text-sm text-black bg-[#f8f9fd]">
+                Reset
+            </a>
+        </form>
+
         <div class="hidden md:flex lg:flex mt-10 opacity-90">
             <h1 class="text-2xl text-white font-semibold">infowisataguci.com</h1>
         </div>
+
+
     </div>
 </nav>
 

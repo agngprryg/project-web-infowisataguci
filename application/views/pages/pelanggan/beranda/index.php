@@ -25,7 +25,7 @@
                     </div>
                     <div class="absolute top-[200px] md:top-[170px] lg:top-[200px] left-[5px] w-[90px] md:w-[130px] h-[20px] md:h-[30px] flex justify-between items-center gap-2 text-white bg-[#1856a4] rounded-sm">
                         <div class="w-[75%] px-1.5">
-                            <h1 class="text-[7px] md:text-xs font-semibold"> <?= $item->kapasitas ?> </h1>
+                            <h1 class="text-[7px] md:text-[10px] font-semibold"> <?= $item->kapasitas_min ?> - <?= $item->kapasitas_max  ?> orang </h1>
                         </div>
                         <div class="w-[25%] h-full flex justify-center items-center bg-[#fcd817]">
                             <img src="<?= base_url('assets/icon/users.png') ?>" alt="bed icon" class="size-3 md:size-5">
