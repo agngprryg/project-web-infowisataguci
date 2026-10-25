@@ -53,23 +53,65 @@
 
             <!-- Harga -->
             <?php foreach (tarif_labels() as $field => $label): ?>
-            <div class="flex flex-col">
-                <label for="<?= $field ?>" class="mb-1 font-medium">Harga <?= $label ?></label>
-                <input id="<?= $field ?>" type="number" name="<?= $field ?>" min="0" max="2147483647" step="1" required
-                    value="<?= set_value($field, $data_penginapan->$field) ?>" class="px-4 py-2.5 border rounded-md">
-                <span class="mt-1 text-xs text-red-600"><?= form_error($field) ?></span>
-            </div>
+                <div class="flex flex-col">
+                    <label for="<?= $field ?>" class="mb-1 font-medium">Harga <?= $label ?></label>
+                    <input id="<?= $field ?>" type="number" name="<?= $field ?>" min="0" max="2147483647" step="1" required
+                        value="<?= set_value($field, $data_penginapan->$field) ?>" class="px-4 py-2.5 border rounded-md">
+                    <span class="mt-1 text-xs text-red-600"><?= form_error($field) ?></span>
+                </div>
             <?php endforeach; ?>
 
-            <!-- Kapasitas -->
+
+            <!-- Kapasitas Minimum -->
             <div class="flex flex-col">
-                <label class="mb-1 font-medium">Kapasitas</label>
+                <label for="kapasitas_min" class="mb-1 font-medium">
+                    Kapasitas Minimum (orang)
+                </label>
+
                 <input
-                    type="text"
-                    value="<?= $data_penginapan->kapasitas ?>"
-                    name="kapasitas"
+                    type="number"
+                    id="kapasitas_min"
+                    name="kapasitas_min"
+                    min="1"
+                    max="2147483647"
+                    step="1"
+                    required
+                    value="<?= html_escape(set_value(
+                                'kapasitas_min',
+                                $data_penginapan->kapasitas_min
+                            )) ?>"
                     class="px-4 py-2.5 border rounded-md">
+
+                <span class="mt-1 text-xs text-red-600">
+                    <?= form_error('kapasitas_min') ?>
+                </span>
             </div>
+
+            <!-- Kapasitas Maksimum -->
+            <div class="flex flex-col">
+                <label for="kapasitas_max" class="mb-1 font-medium">
+                    Kapasitas Maksimum (orang)
+                </label>
+
+                <input
+                    type="number"
+                    id="kapasitas_max"
+                    name="kapasitas_max"
+                    min="1"
+                    max="2147483647"
+                    step="1"
+                    required
+                    value="<?= html_escape(set_value(
+                                'kapasitas_max',
+                                $data_penginapan->kapasitas_max
+                            )) ?>"
+                    class="px-4 py-2.5 border rounded-md">
+
+                <span class="mt-1 text-xs text-red-600">
+                    <?= form_error('kapasitas_max') ?>
+                </span>
+            </div>
+
 
             <!-- Thumbnail -->
             <div class="flex flex-col">

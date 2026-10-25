@@ -46,7 +46,7 @@ class CDataPenginapan extends CI_Controller
         $rules = [
             [
                 'field' => 'id_kategori',
-                'label' => 'ID Kategori',
+                'label' => 'Kategori',
                 'rules' => 'required',
                 'errors' => [
                     'required' => 'Kategori harus diisi.'
@@ -54,10 +54,10 @@ class CDataPenginapan extends CI_Controller
             ],
             [
                 'field' => 'nama',
-                'label' => 'Nama',
-                'rules' => 'required',
+                'label' => 'Nama Penginapan',
+                'rules' => 'required|trim',
                 'errors' => [
-                    'required' => 'Nama Penginapan harus diisi.'
+                    'required' => 'Nama penginapan harus diisi.'
                 ]
             ],
             [
@@ -69,11 +69,25 @@ class CDataPenginapan extends CI_Controller
                 ]
             ],
             [
-                'field' => 'kapasitas',
-                'label' => 'Kapasitas',
-                'rules' => 'required',
+                'field' => 'kapasitas_min',
+                'label' => 'Kapasitas Minimum',
+                'rules' => 'required|integer|greater_than[0]|less_than_equal_to[2147483647]',
                 'errors' => [
-                    'required' => 'Kapasitas harus diisi.'
+                    'required' => 'Kapasitas minimum harus diisi.',
+                    'integer' => 'Kapasitas minimum harus berupa angka bulat.',
+                    'greater_than' => 'Kapasitas minimum harus lebih dari 0.',
+                    'less_than_equal_to' => 'Kapasitas minimum terlalu besar.'
+                ]
+            ],
+            [
+                'field' => 'kapasitas_max',
+                'label' => 'Kapasitas Maksimum',
+                'rules' => 'required|integer|greater_than[0]|less_than_equal_to[2147483647]',
+                'errors' => [
+                    'required' => 'Kapasitas maksimum harus diisi.',
+                    'integer' => 'Kapasitas maksimum harus berupa angka bulat.',
+                    'greater_than' => 'Kapasitas maksimum harus lebih dari 0.',
+                    'less_than_equal_to' => 'Kapasitas maksimum terlalu besar.'
                 ]
             ],
             [
@@ -98,6 +112,19 @@ class CDataPenginapan extends CI_Controller
             $this->load->view('pages/admin/data-penginapan/create.php', $data);
             $this->load->view('components/footer.php');
         } else {
+            $kapasitas_min = (int) $this->input->post('kapasitas_min');
+            $kapasitas_max = (int) $this->input->post('kapasitas_max');
+
+            if ($kapasitas_max < $kapasitas_min) {
+                $this->session->set_flashdata(
+                    'error',
+                    'Kapasitas maksimum tidak boleh lebih kecil dari kapasitas minimum.'
+                );
+
+                redirect('admin/data-penginapan/create');
+                return;
+            }
+
             $thumbnail = $this->input->post('compressed_gambar');
 
             if (!empty($thumbnail)) {
@@ -127,7 +154,8 @@ class CDataPenginapan extends CI_Controller
                 'nama'              => $this->input->post('nama'),
                 'deskripsi'         => $this->input->post('deskripsi'),
                 'thumbnail'         => $thumbnail_name,
-                'kapasitas'         => $this->input->post('kapasitas'),
+                'kapasitas_min'     => $kapasitas_min,
+                'kapasitas_max'     => $kapasitas_max,
                 'harga_weekday'     => $this->input->post('harga_weekday'),
                 'harga_weekend'     => $this->input->post('harga_weekend'),
                 'harga_high_season' => $this->input->post('harga_high_season'),
@@ -191,6 +219,18 @@ class CDataPenginapan extends CI_Controller
             $this->edit($id);
             return;
         }
+        $kapasitas_min = (int) $this->input->post('kapasitas_min');
+        $kapasitas_max = (int) $this->input->post('kapasitas_max');
+
+        if ($kapasitas_max < $kapasitas_min) {
+            $this->session->set_flashdata(
+                'error',
+                'Kapasitas maksimum tidak boleh lebih kecil dari kapasitas minimum.'
+            );
+
+            redirect('admin/data-penginapan/edit/' . $id);
+            return;
+        }
         $data_penginapan = $this->MAdmin->get_by_id('data_penginapan', $id);
         $thumbnail_lama = $data_penginapan->thumbnail;
 
@@ -215,10 +255,10 @@ class CDataPenginapan extends CI_Controller
             'id_kategori'       => $this->input->post('id_kategori'),
             'nama'              => $this->input->post('nama'),
             'deskripsi'         => $this->input->post('deskripsi'),
-            'thumbnail'         => $thumbnail_name,
-            'kapasitas'         => $this->input->post('kapasitas'),
-            'harga_weekday' => $this->input->post('harga_weekday'),
-            'harga_weekend' => $this->input->post('harga_weekend'),
+            'kapasitas_min'     => $kapasitas_min,
+            'kapasitas_max'     => $kapasitas_max,
+            'harga_weekday'     => $this->input->post('harga_weekday'),
+            'harga_weekend'     => $this->input->post('harga_weekend'),
             'harga_high_season' => $this->input->post('harga_high_season'),
             'status'            => $this->input->post('status'),
         ];
