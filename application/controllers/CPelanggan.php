@@ -7,7 +7,6 @@ class CPelanggan extends CI_Controller
     {
         parent::__construct();
         $this->load->model('MPelanggan');
-        $this->load->library('midtrans_lib');
         $this->load->library('upload');
         $this->load->library('email');
     }
