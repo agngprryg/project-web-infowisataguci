@@ -12,7 +12,7 @@
         <div class="w-full pt-5 pb-10 flex gap-x-4 overflow-x-auto ">
             <?php foreach ($data_penginapan as $item): ?>
                 <a href="<?= base_url('penginapan/detail/' . $item->id) ?>" class="relative max-w-[290px] w-[290px] h-[350px] bg-white shrink-0">
-                    <img src="<?= base_url('uploads/penginapan/') .  $item->thumbnail  ?>" alt="" class="w-full h-[70%] object-cover rounded-t-lg">
+                    <img src="<?= image_webp_url('uploads/penginapan/' . $item->thumbnail) ?>" alt="<?= htmlspecialchars($item->nama) ?>" loading="lazy" decoding="async" class="w-full h-[70%] object-cover rounded-t-lg">
                     <div class="p-2 lg:p-3 bg-white rounded-b-lg">
                         <div class="flex items-center gap-2">
                             <img src="<?= base_url('assets/icon/discount.svg') ?>" alt="logo jempol" class="size-7">
@@ -57,7 +57,7 @@
         <div class="w-full pt-5 pb-10 flex gap-x-4 overflow-x-auto ">
             <?php foreach ($data_wisata as $item): ?>
                 <a href="<?= base_url('wisata/detail/' . $item->id) ?>" class="max-w-[290px] w-[290px] h-[350px] bg-white shrink-0">
-                    <img src="<?= base_url('uploads/wisata/') .  $item->thumbnail  ?>" alt="" class="w-full h-[70%] object-cover rounded-t-lg">
+                    <img src="<?= image_webp_url('uploads/wisata/' . $item->thumbnail) ?>" alt="<?= htmlspecialchars($item->nama) ?>" loading="lazy" decoding="async" class="w-full h-[70%] object-cover rounded-t-lg">
                     <div class="p-2 lg:p-3 bg-white rounded-b-lg">
                         <div class="flex items-center gap-2">
                             <img src="<?= base_url('assets/icon/discount.svg') ?>" alt="logo jempol" class="size-7">
