@@ -75,49 +75,4 @@ class CPages extends CI_Controller
         );
         $this->load->view('components/footer_pelanggan.php');
     }
-
-
-    public function Owner()
-    {
-        if (!$this->session->userdata('role') == 'owner') {
-            $this->session->set_flashdata('message', 'Kamu Tidak Punya Akses Kesini');
-            redirect('CAuth');
-        }
-
-        $data['total_wisata'] = $this->MAdmin->count_all('data_wisata');
-        $data['total_penginapan'] = $this->MAdmin->count_all('data_penginapan');
-        $data['total_pelanggan'] = $this->MAdmin->count_all('data_pelanggan');
-        $data['total_pesanan'] = $this->MAdmin->count_all('pesanan');
-        $data['pesanan_terbaru'] = $this->MAdmin->get_pesanan_terbaru();
-        $data['total_pesanan_per_bulan'] = $this->MAdmin->get_pesanan_per_bulan();
-
-        $pesanan_terbaru = $this->MAdmin->get_pesanan_terbaru();
-
-        foreach ($pesanan_terbaru as $item) {
-            switch ($item->status_pesanan) {
-                case 'pending':
-                    $item->badge_color = 'bg-[#732b79] text-white';
-                    break;
-                case 'proses':
-                    $item->badge_color = 'bg-[#feae28] text-black';
-                    break;
-                case 'selesai':
-                    $item->badge_color = 'bg-[#00880e] text-white';
-                    break;
-                case 'batal':
-                    $item->badge_color = 'bg-gray-200 text-black';
-                    break;
-                default:
-                    $item->badge_color = 'bg-gray-200 text-black';
-                    break;
-            }
-        }
-
-        $data['pesanan_terbaru'] = $pesanan_terbaru;
-
-        $this->load->view('components/header.php');
-        $this->load->view('components/sidebar_owner.php');
-        $this->load->view('pages/owner/dashboard/index.php', $data);
-        $this->load->view('components/footer.php');
-    }
 }
