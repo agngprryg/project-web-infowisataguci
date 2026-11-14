@@ -28,8 +28,9 @@
                 <div id="mainCarousel" class="flex transition-transform duration-500">
                     <?php foreach ($wisata_gambar as $index => $img): ?>
                         <img
-                            src="<?= base_url('uploads/wisata/' . $img->gambar) ?>"
+                            src="<?= image_webp_url('uploads/wisata/' . $img->gambar) ?>"
                             alt="<?= $img->gambar ?> <?= $index + 1 ?>"
+                            <?= $index > 0 ? 'loading="lazy" decoding="async"' : 'fetchpriority="high"' ?>
                             class="w-full flex-shrink-0 object-cover h-full" />
                     <?php endforeach; ?>
                 </div>
@@ -61,8 +62,10 @@
                 <?php foreach ($wisata_gambar as $index => $img): ?>
                     <img
                         data-index="<?= $index ?>"
-                        src="<?= base_url('uploads/wisata/' . $img->gambar) ?>"
+                        src="<?= image_webp_url('uploads/wisata/' . $img->gambar) ?>"
                         alt="<?= $img->gambar ?> <?= $index + 1 ?>"
+                        loading="lazy"
+                        decoding="async"
                         class="h-20 w-28 object-cover rounded-lg cursor-pointer opacity-100 border-2 border-blue-500" />
                 <?php endforeach; ?>
             </div>
