@@ -6,7 +6,7 @@
     <div class="w-full pb-20 grid grid-cols-2 md:grid-cols-3 lg:flex lg:flex-wrap gap-y-20 gap-x-2 md:gap-y-14 md:gap-x-5 justify-items-center">
         <?php foreach ($data_penginapan as $item): ?>
             <a href="<?= base_url('penginapan/detail/' . $item->id) ?>" class="relative md:max-w-[290px] md:max-h-[350px] w-[160px] md:w-[230px] lg:w-[280px] h-[180px] md:h-[300px] lg:h-[350px] rounded-md">
-                <img src="<?= base_url('uploads/penginapan/') .  $item->thumbnail  ?>" alt="" class="w-full h-[70%] object-cover rounded-t-lg">
+                <img src="<?= image_webp_url('uploads/penginapan/' . $item->thumbnail) ?>" alt="<?= htmlspecialchars($item->nama) ?>" loading="lazy" decoding="async" class="w-full h-[70%] object-cover rounded-t-lg">
                 <div class="p-2 lg:p-3 bg-white rounded-b-lg">
                     <div class="flex items-end gap-2">
                         <img src="<?= base_url('assets/icon/best-seller.png') ?>" alt="logo jempol" class="size-5">
